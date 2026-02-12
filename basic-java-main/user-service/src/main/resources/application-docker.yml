@@ -1,0 +1,47 @@
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  application:
+    name: user-service
+
+    datasource:
+     url: jdbc:h2:mem:userdb?createDatabaseIfNotExist=true
+     driver-class-name: org.h2.Driver
+     username: sa
+     password: sa
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+nats:
+  spring:
+    server: nats://nats:4222
+    connection-timeout: 5000
+    max-reconnect: 10
+    reconnect-wait: 2000
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.example.userservice: INFO
+    io.nats: WARN
+    org.hibernate.SQL: INFO
+    #org.springframework.boot.context.config: TRACE
+    #org.springframework.core.env: TRACE
+

@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html, body, #root {
+    background-color: #AFD8DA; 
+    min-height: 100vh; /* on all the screen */
+  }
+}
+
+@layer base {
+  *:focus {
+    outline: none;
+  }
+}
+

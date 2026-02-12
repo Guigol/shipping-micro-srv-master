@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: shipping-micro-service
+
+  data:
+    mongodb:
+      uri: mongodb://root:secret@mongo-shipping:27017/shippingdb?authSource=admin
+      database: shippingdb
+
+    redis:
+      host: redis
+      port: 6379
+      timeout: 2s
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 10m
+      cache-null-values: false
+      key-prefix: "shipping:"
+      use-key-prefix: true
+
+server:
+  port: 8084
+
+nats:
+  spring:
+    server: nats://nats:4222
+    connection-timeout: 5000
+    max-reconnect: 10
+    reconnect-wait: 2000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.example.shippingService: INFO
+    io.nats: INFO
+    org.springframework.data.redis: INFO

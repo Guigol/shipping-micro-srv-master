@@ -1,0 +1,115 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Application
+*.class
+*.jar
+!maven-wrapper.jar
+*.war
+*.ear
+*.nar
+
+# Spring Boot
+*.pid
+*.gz
+spring.log
+
+# H2 Database
+*.db
+*.trace.db
+*.lock.db
+*.mv.db
+
+# Docker
+.dockerignore
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# Package Files
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Gradle (if used)
+.gradle/
+gradle/
+!gradle-wrapper.jar
+
+# Test coverage
+.jacoco/
+jacoco.exec
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Certificates
+*.pem
+*.key
+*.crt
+
+# Data directories
+data/

@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:h2:mem:userdb?createDatabaseIfNotExist=true
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8081
+
+nats:
+  spring:
+    server: nats://localhost:4222
+    connection-timeout: 5000
+    max-reconnect: 10
+    reconnect-wait: 2000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.example.userservice: DEBUG
+    io.nats: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

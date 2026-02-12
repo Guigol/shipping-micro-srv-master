@@ -1,0 +1,150 @@
+services:
+  # ===== NATS Server =====
+  nats:
+    image: nats:2.10-alpine
+    container_name: nats-server
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    command: ["-js", "-m", "8222"]
+    networks:
+      - spring-boot-nats-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===== Redis =====
+  redis:
+    image: redis:7
+    container_name: redis
+    networks:
+     - spring-boot-nats-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===== MongoDB for Shipping Service =====
+  mongo-shipping:
+    image: mongo:7
+    container_name: mongo-shipping
+    environment:
+      - MONGO_INITDB_DATABASE=shippingdb
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-shipping-data:/data/db
+    networks:
+      - spring-boot-nats-network
+    healthcheck:
+      test: [ "CMD", "mongosh", "-u", "root", "-p", "secret", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===== User Service =====
+  user-service:
+    build:
+      context: ./basic-java-main
+      dockerfile: ./user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NATS_URL=nats://nats:4222
+    depends_on:
+      nats:
+        condition: service_healthy
+    networks:
+      - spring-boot-nats-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8081/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ===== Gateway =====
+  gateway:
+    build:
+      context: ./basic-java-main
+      dockerfile: ./gateway/Dockerfile
+    container_name: gateway
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NATS_URL=nats://nats:4222
+    depends_on:
+      nats:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+    networks:
+      - spring-boot-nats-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8082/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ===== Shipping Service =====
+  shipping-service:
+    build:
+      context: ./basic-java-main
+      dockerfile: ./shipping-micro-service/Dockerfile
+    container_name: shipping-micro-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NATS_URL=nats://nats:4222
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - MONGO_URI=mongodb://root:secret@mongo-shipping:27017/shippingdb?authSource=admin&retryWrites=true&w=majority
+
+    depends_on:
+      nats:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongo-shipping:
+        condition: service_healthy
+    networks:
+      - spring-boot-nats-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8084/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ===== Frontend =====
+  front:
+    build:
+      context: ./FrontEnd_Shipping
+      dockerfile: Dockerfile
+    container_name: FrontEnd_Shipping
+    ports:
+      - "5173:80" 
+    depends_on:
+      - gateway
+    networks:
+      - spring-boot-nats-network
+    restart: unless-stopped
+
+# ===== Networks =====
+networks:
+  spring-boot-nats-network:
+    driver: bridge
+
+# ===== Volumes =====
+volumes:
+  mongo-shipping-data: {}

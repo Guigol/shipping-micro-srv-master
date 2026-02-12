@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Martha Desjambes",
+    "email": "martha.desjambes@ship.com",
+    "password": "12345",
+    "address": "123 Rue de Paris, Paris",
+    "role": "USER"
+  },
+  {
+    "name": "Alain Térieur",
+    "email": "alain.terieur@ship.com",
+    "password": "12345",
+    "address": "45 Avenue de Lyon, Lyon",
+    "role": "USER"
+  },
+  {
+    "name": "Alex Térieur",
+    "email": "alex.terieur@ship.com",
+    "password": "12345",
+    "address": " 90 rue de Lyon, Lyon",
+    "role": "USER"
+  },
+  {
+    "name": "Jeanne Darque",
+    "email": "jeanne.darque@ship.com",
+    "password": "12345",
+    "address": "78 Boulevard de Marseille, Marseille",
+    "role": "ADMIN"
+  },
+  {
+    "name": "Pierre Elelout",
+    "email": "pierre.elelout@ship.com",
+    "password": "12345",
+    "address": "3 bis place de Bordeaux, Bordeaux",
+    "role": "USER"
+  },
+  {
+    "name": "Jean Cive",
+    "email": "jean.cive@ship.com",
+    "password": "12345",
+    "address": "12 Allée de Toulouse, Toulouse",
+    "role": "USER"
+  },
+  {
+    "name": "Méline Dah",
+    "email": "meline.dah@ship.com",
+    "password": "12345",
+    "address": "6 Rue de Nantes, Nantes",
+    "role": "USER"
+  }
+]

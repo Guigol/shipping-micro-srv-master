@@ -1,0 +1,11 @@
+nats:
+  spring:
+    server: nats://nats:4222
+
+server:
+  port: 8082
+
+logging:
+  level:
+    com.example.gateway: INFO
+    io.nats: WARN
