@@ -23,7 +23,7 @@ export function AuthProvider({ children }: Props) {
   const isAuthenticated = !!user;
   const isAdmin = user?.role === "ADMIN";
 
-  // 🔁 CHECK SESSION AU CHARGEMENT
+  // 🔁 CHECK SESSION 
   useEffect(() => {
     fetch("/auth/me", {
       credentials: "include",

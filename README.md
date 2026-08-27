@@ -109,7 +109,7 @@
 | **Docker Compose**  | 3.8      | Containerization administrator           |
 | **Jackson**         | 2.15.3   | JSON Serialization/deserialization       |
 | **Lombok**          | 1.18.30  | Boilerplate Constructor                  |
-| **MangoDb**         | Latest   | NoSql Database                           |
+| **MongoDb**         | Latest   | NoSql Database                           |
 | **Jwt**             | 0.11.5   | Authentication Security Token            |
 | **Hibernate**       | 6.x      | ORM (via Spring Data JPA)                |
 | **Redis**           | Latest   | Stored Cache                             |
